@@ -1,0 +1,1824 @@
+/* Shelves: the horizontal rows of covers on Favorites (Watch, Read) and Make,
+   plus the pop-up cards they open (recipes, artwork, videos). Shared by both pages. */
+
+/* Read intro: left-aligned on the same edge as the book shelf, spanning its width */
+/* ===== MAKE: baking shelf + recipe card ===== */
+.bake-open {
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: var(--cursor-hot, pointer);
+    border-radius: var(--r-inset);
+}
+
+.bake-open:focus-visible {
+    outline: 2px solid #733642;
+    outline-offset: 4px;
+}
+
+.bake-cover {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(160deg, #F5E0DB 0%, #EFCFCD 100%);
+}
+
+.bake-whisk {
+    width: 38%;
+    fill: none;
+    stroke: #7E3F4A;
+    stroke-width: 1.3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.shelf-item:hover .bake-cover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 28px rgba(42, 24, 16, 0.18);
+}
+
+.recipe-card {
+    /* the page's margin reset would pin the pop-up to the corner; this centers it */
+    margin: auto;
+    width: min(760px, calc(100vw - 32px));
+    max-height: calc(100vh - 48px);
+    padding: 0;
+    border: none;
+    border-radius: var(--r-card);
+    background: #FFF8F6;
+    color: #1E100A;
+    box-shadow: 0 30px 80px rgba(42, 24, 16, 0.3);
+    overflow: auto;
+}
+
+.recipe-card::backdrop {
+    background: rgba(42, 24, 16, 0.45);
+    backdrop-filter: blur(3px);
+}
+
+.recipe-card[open] {
+    animation: recipeIn 0.3s ease both;
+}
+
+@keyframes recipeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.recipe-close {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    z-index: 1;
+    width: 38px;
+    height: 38px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(250, 241, 239, 0.92);
+    color: #1E100A;
+    font-size: 1.5em;
+    line-height: 1;
+    cursor: var(--cursor-hot, pointer);
+}
+
+/* keep the focus ring on the close button in the site's rose, not the browser's blue */
+.recipe-close:focus-visible {
+    outline: 2px solid #733642;
+    outline-offset: 2px;
+}
+
+.recipe-close:focus:not(:focus-visible) {
+    outline: none;
+}
+
+.recipe-photo {
+    height: 240px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(160deg, #F5E0DB 0%, #EFCFCD 100%);
+}
+
+.recipe-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.recipe-photo .bake-whisk {
+    width: 90px;
+}
+
+.recipe-body {
+    padding: 28px 34px 34px;
+}
+
+.recipe-kicker {
+    margin: 0;
+    font-size: 0.75em;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: #7E3F4A;
+}
+
+.recipe-body > h2,
+.recipe-body > h3 {
+    margin: 4px 0 6px;
+    font-family: Georgia, serif;
+    font-size: 2em;
+    color: #1E100A;
+}
+
+.recipe-line {
+    margin: 0;
+    font-style: italic;
+    color: #3F4A34;
+}
+
+.recipe-meta {
+    margin: 12px 0 0;
+    font-size: 0.85em;
+    font-weight: 600;
+    color: #733642;
+}
+
+/* Make > Traveling: a trip's card, one row per spot */
+/* Traveling: the next page of my travel journal, twice as wide as a trip card and just as tall.
+   Ruled cream paper, a red margin line, two strips of washi tape, a taped-in sketch of a plane
+   and a boarding pass to somewhere not decided yet. */
+.trip-journal {
+    container-type: inline-size;
+}
+
+.journal-page {
+    position: relative;
+    height: 150cqw;                     /* same 2:3 as the trip photos */
+    padding: 10% 8% 8% 14%;
+    border-radius: 3px 8px 8px 3px;
+    background:
+        linear-gradient(90deg, transparent 0 7.5%, rgba(214, 120, 120, 0.45) 7.5% calc(7.5% + 1.5px), transparent 0),
+        repeating-linear-gradient(180deg, transparent 0 25px, rgba(150, 170, 200, 0.28) 25px 26px),
+        #FFFBF4;
+    box-shadow: 0 6px 16px rgba(42, 24, 16, 0.14), inset 0 0 40px rgba(210, 180, 150, 0.18);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 4%;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.trip-journal:hover .journal-page {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 28px rgba(42, 24, 16, 0.2);
+}
+
+.journal-tape {
+    position: absolute;
+    top: -6px;
+    width: 22%;
+    height: 22px;
+    background: rgba(225, 160, 175, 0.55);
+    box-shadow: 0 1px 2px rgba(42, 24, 16, 0.08);
+}
+
+.journal-tape.left { left: 8%; transform: rotate(-6deg); }
+.journal-tape.right { right: 6%; transform: rotate(5deg); background: rgba(160, 190, 150, 0.5); }
+
+.journal-date {
+    margin: 0;
+    font-family: Georgia, serif;
+    font-style: italic;
+    font-size: clamp(0.72rem, 6cqw, 0.95rem);
+    color: #7E3F4A;
+}
+
+/* the sketch, taped in like a photo */
+.journal-snap {
+    width: 78%;
+    margin: 0;
+    padding: 5px 5px 16px;
+    background: #FFFFFF;
+    box-shadow: 0 3px 8px rgba(42, 24, 16, 0.18);
+}
+
+.journal-snap svg {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+/* the boarding pass: a main part and a stub, split by a dotted tear line */
+.journal-ticket {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    border-radius: var(--r-small);
+    background: #FFF4EE;
+    border: 1px solid #E9CFC6;
+    box-shadow: 0 3px 8px rgba(42, 24, 16, 0.14);
+    font-size: clamp(0.5rem, 4.4cqw, 0.72rem);
+    color: #1E100A;
+    overflow: hidden;
+}
+
+.ticket-main {
+    padding: 8% 8% 8% 9%;
+}
+
+.ticket-stub {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 12% 10%;
+    border-left: 2px dotted #D9B8AE;
+    background: #F8E3DC;
+}
+
+.journal-ticket p { margin: 0; }
+
+.ticket-kicker {
+    font-size: 0.8em;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #733642;
+}
+
+.ticket-route {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 4px !important;
+    font-family: Georgia, serif;
+    font-size: 1.9em;
+    color: #1E100A;
+}
+
+.ticket-plane {
+    font-size: 0.7em;
+    color: #733642;
+}
+
+.ticket-meta {
+    display: grid;
+    gap: 3px;
+    margin: 6px 0 0;
+}
+
+.ticket-meta div {
+    display: flex;
+    gap: 6px;
+}
+
+.ticket-meta dt {
+    min-width: 5.2em;
+    font-weight: 700;
+    color: #7A6A64;
+}
+
+.ticket-meta dd {
+    margin: 0;
+}
+
+.ticket-gate {
+    margin-top: 2px !important;
+    font-family: Georgia, serif;
+    font-size: 1.5em;
+    font-weight: 700;
+}
+
+.ticket-barcode {
+    flex: 1;
+    width: 26px;
+    min-height: 34px;
+    margin-top: 8px;
+    background: repeating-linear-gradient(180deg, #1E100A 0 2px, transparent 2px 4px, #1E100A 4px 5px, transparent 5px 8px);
+    opacity: 0.8;
+}
+
+.journal-note {
+    margin: 0;
+    white-space: nowrap;
+    font-family: Georgia, serif;
+    font-style: italic;
+    font-size: clamp(0.68rem, 5.4cqw, 0.9rem);
+    color: #3F4A34;
+}
+
+.trip-card {
+    width: min(640px, calc(100vw - 32px));
+}
+
+/* keep the tallest towers (on the right of the Chicago photo) in view */
+.trip-open img,
+.trip-photo img {
+    object-position: 70% 50%;
+}
+
+.trip-spots {
+    margin: 22px 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.trip-spot {
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    gap: 14px;
+    padding: 16px 0;
+    border-top: 1px solid #EBD5D0;
+}
+
+.trip-emoji {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #F6E4E1;
+    font-size: 1.2em;
+}
+
+.trip-spot h3 {
+    margin: 0;
+    font-family: Georgia, serif;
+    font-size: 1.15em;
+    color: #1E100A;
+}
+
+.trip-must {
+    display: inline-block;
+    margin-left: 6px;
+    padding: 2px 9px;
+    border-radius: var(--r-pill);
+    background: #733642;
+    color: #FFF8F6;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 0.6em;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    vertical-align: middle;
+}
+
+.trip-kind {
+    margin: 2px 0 6px;
+    font-size: 0.78em;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #6B7F5E;
+}
+
+.trip-spot p:last-child {
+    margin: 0;
+    line-height: 1.6;
+}
+
+/* Wide shelves (board game boxes): landscape cards, fewer across */
+.shelf.wide {
+    --visible: 3.3;
+}
+
+.shelf.wide .shelf-rail {
+    grid-auto-columns: clamp(220px, calc((100% - (var(--visible) - 0.3) * var(--gap)) / var(--visible)), 340px);
+}
+
+.shelf.wide .shelf-cover {
+    aspect-ratio: 16 / 10;
+    background: #FFF8F6;
+}
+
+.shelf.wide .shelf-cover img {
+    object-fit: contain;
+    padding: 6px;
+}
+
+@media (max-width: 600px) {
+    .shelf.wide {
+        --visible: 1.4;
+    }
+}
+
+/* the Make intro line sits under the heading like the other shelf captions */
+.make-caption {
+    margin: 10px 0 0;
+}
+
+/* Make > Art: each piece shown whole on a blush mat, like a framed print */
+.shelf.art-shelf .shelf-cover {
+    aspect-ratio: 4 / 5;
+    background: linear-gradient(160deg, #F5E0DB 0%, #EFCFCD 100%);
+}
+
+.shelf.art-shelf .shelf-cover img {
+    inset: 10px;
+    width: calc(100% - 20px);
+    height: calc(100% - 20px);
+    object-fit: contain;
+}
+
+.art-open {
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: none;
+    background: none;
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    cursor: zoom-in;
+}
+
+.art-open .shelf-cover,
+.art-open .shelf-item-title,
+.art-open .shelf-item-meta {
+    display: block;
+}
+
+.art-open:focus-visible {
+    outline: 2px solid #733642;
+    outline-offset: 4px;
+}
+
+.art-open:hover .shelf-cover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 28px rgba(42, 24, 16, 0.22);
+}
+
+/* Make > Digital Art: one gallery wall of columns that slides sideways (‹ › or swipe).
+   A column holds one piece at full height, or two stacked pieces sharing its width. Each column's width is
+   worked out from its art (--n pieces, --inv = the sum of height / width) so every column is exactly
+   --wall-h tall: the wall is one rectangle and nothing is ever cropped. */
+.art-shelf {
+    --frame: 8px;          /* walnut */
+    --mat: 12px;           /* white mat */
+    --edge: calc(2 * (var(--frame) + var(--mat)));
+    --label: 34px;         /* the title under each piece */
+    --stack-gap: 26px;     /* between two stacked pieces */
+    --wall-h: clamp(440px, 72vh, 640px);
+    --cover-height: var(--wall-h);   /* centers the ‹ › arrows on the wall */
+}
+
+.gallery-wall-wrap {
+    margin-inline: 0;
+}
+
+.gallery-wall {
+    display: flex;
+    align-items: flex-start;
+    gap: 34px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    padding: 44px 40px 56px;
+    border-radius: var(--r-card);
+    background:
+        radial-gradient(ellipse 70% 55% at 50% 0%, rgba(255, 250, 244, 0.75) 0%, rgba(255, 250, 244, 0) 100%),
+        linear-gradient(180deg, #F1E4DE 0%, #E9D7D0 100%);
+    box-shadow: inset 0 -12px 0 #DCC6BE;   /* the baseboard */
+}
+
+.gallery-wall::-webkit-scrollbar {
+    display: none;
+}
+
+.gallery-wall:focus-visible {
+    outline: 2px solid #733642;
+    outline-offset: 3px;
+}
+
+/* the shelf arrows sit on the wall's padding, so push them to its top edge */
+.gallery-wall-wrap .shelf-arrow {
+    top: calc(44px + var(--wall-h) / 2);
+}
+
+.gallery-wall-wrap .shelf-arrow.prev { left: 12px; }
+.gallery-wall-wrap .shelf-arrow.next { right: 12px; }
+
+.wall-col {
+    flex: none;
+    width: calc((var(--wall-h) - var(--n) * (var(--edge) + var(--label)) - (var(--n) - 1) * var(--stack-gap)) / var(--inv) + var(--edge));
+    height: var(--wall-h);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.gallery-piece .art-open {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    text-align: center;
+}
+
+/* walnut frame, white mat on every piece */
+.gallery-piece .gallery-frame {
+    display: block;
+    padding: var(--mat);
+    border: var(--frame) solid #3B2A22;
+    background: #FFFDFB;
+    box-shadow:
+        inset 0 0 0 1px rgba(42, 24, 16, 0.08),
+        0 2px 3px rgba(42, 24, 16, 0.22),
+        0 16px 30px rgba(42, 24, 16, 0.2);
+}
+
+.gallery-piece .gallery-frame img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: var(--r);
+    object-fit: contain;
+}
+
+/* the title, the same under every piece (a fixed height, so the column math above holds) */
+.gallery-piece .gallery-label {
+    display: block;
+    height: var(--label);
+    padding-top: 12px;
+    line-height: 1.3;
+    white-space: nowrap;
+}
+
+.gallery-title {
+    font-family: Georgia, serif;
+    font-style: italic;
+    font-size: 0.88em;
+    color: #5A3E36;
+    transition: color 0.3s ease;
+}
+
+/* ---- hover: the frame lifts ---- */
+.gallery-frame {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.gallery-piece .art-open:hover .gallery-frame {
+    transform: translateY(-4px);
+    box-shadow:
+        inset 0 0 0 1px rgba(42, 24, 16, 0.08),
+        0 4px 6px rgba(42, 24, 16, 0.2),
+        0 26px 44px rgba(42, 24, 16, 0.26);
+}
+
+.gallery-piece .art-open:hover .gallery-title {
+    color: #733642;
+}
+
+/* ---- tablets and phones: a shorter wall, slimmer frames ---- */
+@media (max-width: 680px) {
+    .art-shelf {
+        --frame: 5px;
+        --mat: 7px;
+        --label: 28px;
+        --stack-gap: 18px;
+        --wall-h: 380px;
+    }
+
+    .gallery-wall {
+        gap: 22px;
+        padding: 26px 18px 34px;
+    }
+
+    .gallery-wall-wrap .shelf-arrow { top: calc(26px + var(--wall-h) / 2); }
+
+    .gallery-piece .gallery-label { padding-top: 8px; }
+
+    .gallery-title { font-size: 0.78em; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .gallery-frame,
+    .gallery-title {
+        transition: none;
+    }
+}
+
+/* the artwork pop-up: the whole piece, as large as the screen allows */
+.art-card {
+    width: min(820px, calc(100vw - 32px));
+}
+
+.art-frame {
+    display: flex;
+    justify-content: center;
+    padding: 24px 24px 0;
+    background: linear-gradient(160deg, #F5E0DB 0%, #EFCFCD 100%);
+}
+
+.art-frame img {
+    display: block;
+    max-width: 100%;
+    max-height: 62vh;
+    object-fit: contain;
+    box-shadow: 0 12px 30px rgba(42, 24, 16, 0.25);
+    transform: translateY(24px);
+}
+
+.art-card .recipe-body {
+    padding-top: 44px;
+}
+
+/* Make > Writing: each card is a page with the piece's opening lines */
+.shelf.writing-shelf .shelf-cover {
+    aspect-ratio: 4 / 5;
+    display: flex;
+    flex-direction: column;
+    padding: 22px 20px 18px;
+    background: #FFF8F6;
+    border: 1px solid #EBD5D0;
+    border-top: 4px solid #7E3F4A;
+}
+
+.writing-kind {
+    font-size: 0.7em;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #7E3F4A;
+}
+
+.writing-dedication {
+    margin-top: 14px;
+    font-family: Georgia, serif;
+    font-size: 0.8em;
+    font-style: italic;
+    color: #3F4A34;
+}
+
+.writing-opening {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 14px;
+    font-family: Georgia, serif;
+    font-size: 0.98em;
+    font-style: italic;
+    line-height: 1.45;
+    color: #1E100A;
+}
+
+/* each card links to the piece on GirlSpring */
+.writing-card {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+}
+
+.writing-card:hover {
+    color: inherit;
+}
+
+.writing-card .shelf-item-title,
+.writing-card .shelf-item-meta {
+    display: block;
+}
+
+.writing-card:focus-visible {
+    outline: 2px solid #733642;
+    outline-offset: 4px;
+}
+
+.writing-card:hover .shelf-cover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 28px rgba(42, 24, 16, 0.22);
+}
+
+.writing-read {
+    margin-top: auto;
+    font-size: 0.75em;
+    font-weight: 600;
+    color: #733642;
+}
+
+/* phones: wider pages so the opening lines have room */
+@media (max-width: 600px) {
+    .shelf.writing-shelf .shelf-rail {
+        grid-auto-columns: 64%;
+    }
+}
+
+/* Watch: three rows up front, the rest behind "View more awesome recs" */
+.watch-more[hidden] {
+    display: none;
+}
+
+.watch-more {
+    animation: watchIn 0.4s ease both;
+}
+
+@keyframes watchIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: none; }
+}
+
+.watch-more-wrap {
+    display: flex;
+    justify-content: center;
+    margin-top: 36px;
+}
+
+.watch-more-btn {
+    padding: 14px 32px;
+    border-radius: var(--r-pill);
+    border: 1.5px solid #733642;
+    background: #FFF8F6;
+    color: #1E100A;
+    font: inherit;
+    font-size: 0.95em;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    cursor: var(--cursor-hot, pointer);
+    transition: background 0.25s ease, color 0.25s ease, transform 0.25s ease;
+}
+
+.watch-more-btn:hover {
+    background: #733642;
+    color: #FAF1EF;
+    transform: translateY(-2px);
+}
+
+.watch-more-btn:focus-visible {
+    outline: 2px solid #733642;
+    outline-offset: 3px;
+}
+
+/* Inspiration: YouTube talks as 16:9 thumbnails with a play button */
+/* topic buttons above the talks, and each card's topic */
+.video-topics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: -4px 0 14px;
+}
+
+.video-topic-btn {
+    padding: 7px 16px;
+    border-radius: var(--r-pill);
+    border: 1.5px solid #D9B8B3;
+    background: #FFF8F6;
+    color: #1E100A;
+    font: inherit;
+    font-size: 0.82em;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    cursor: var(--cursor-hot, pointer);
+    transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.video-topic-btn:hover {
+    border-color: #7E3F4A;
+}
+
+.video-topic-btn[aria-pressed="true"] {
+    background: #733642;
+    border-color: #733642;
+    color: #FAF1EF;
+}
+
+.video-topic-btn:focus-visible {
+    outline: 2px solid #733642;
+    outline-offset: 3px;
+}
+
+.video-open .video-topic {
+    display: block;
+    margin-top: 14px;
+    font-size: 0.7em;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #7E3F4A;
+}
+
+.video-open .video-topic + .shelf-item-title {
+    margin-top: 4px;
+}
+
+/* the mulberry card at the front of Inspiration: my line for All, or "Why I value…" for a topic */
+.why-card,
+.soon-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    min-height: 100%;
+    padding: 22px 22px;
+    border-radius: var(--r-card);
+    background: linear-gradient(150deg, #7E3F4A 0%, #7E4550 100%);
+    color: #FFF8F6;
+    box-shadow: 0 10px 24px rgba(138, 77, 87, 0.18);
+}
+
+.why-kicker {
+    font-size: 0.7em;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #F3DADA;
+}
+
+.why-topic {
+    margin-top: 4px;
+    font-family: Georgia, serif;
+    font-size: 1.5em;
+    font-weight: 700;
+}
+
+.why-text {
+    margin: 10px 0 0;
+    font-family: Georgia, serif;
+    font-size: 1.15em;
+    font-style: italic;
+    line-height: 1.45;
+}
+
+/* a topic with no talks yet */
+.soon-card {
+    background: #FFF8F6;
+    border: 1.5px dashed #D9B8B3;
+    box-shadow: none;
+    color: #1E100A;
+}
+
+.soon-card .why-kicker {
+    color: #7E3F4A;
+}
+
+.soon-card p {
+    margin: 8px 0 0;
+    font-family: Georgia, serif;
+    font-style: italic;
+}
+
+/* a picked topic: a 3-column grid instead of one scrolling row */
+.shelf.video-shelf.filtered .shelf-rail {
+    grid-auto-flow: row;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    overflow: visible;
+    scroll-snap-type: none;
+    cursor: default;
+}
+
+.shelf.video-shelf.filtered .shelf-arrow {
+    display: none;
+}
+
+@media (max-width: 700px) {
+    /* phones: the card on top, the talks stacked under it */
+    .shelf.video-shelf.filtered .shelf-rail {
+        grid-template-columns: 1fr;
+    }
+}
+
+.shelf-item[hidden] {
+    display: none;
+}
+
+.shelf.video-shelf .shelf-cover {
+    aspect-ratio: 16 / 9;
+}
+
+.shelf.video-shelf .shelf-cover img {
+    object-fit: cover;
+    padding: 0;
+}
+
+.video-open {
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: none;
+    background: none;
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    cursor: var(--cursor-hot, pointer);
+}
+
+/* inside a button these are spans, so stack them like the other shelves' lines */
+.video-open .shelf-cover,
+.video-open .shelf-item-title,
+.video-open .shelf-item-meta {
+    display: block;
+}
+
+.video-open:focus-visible {
+    outline: 2px solid #733642;
+    outline-offset: 4px;
+}
+
+.video-play {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 56px;
+    height: 56px;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: rgba(250, 241, 239, 0.92);
+    box-shadow: 0 6px 18px rgba(42, 24, 16, 0.3);
+    transition: transform 0.25s ease, background 0.25s ease;
+}
+
+.video-play::after {
+    content: "";
+    position: absolute;
+    left: 22px;
+    top: 17px;
+    border-style: solid;
+    border-width: 11px 0 11px 17px;
+    border-color: transparent transparent transparent #733642;
+}
+
+.video-open:hover .video-play,
+.video-open:focus-visible .video-play {
+    transform: translate(-50%, -50%) scale(1.08);
+    background: #FFF8F6;
+}
+
+/* the player pop-up: same card as the recipes, holding a 16:9 video */
+.video-card {
+    width: min(960px, calc(100vw - 32px));
+}
+
+.video-frame {
+    aspect-ratio: 16 / 9;
+    background: #1E100A;
+}
+
+.video-frame iframe {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+.video-card .recipe-body {
+    padding: 20px 28px 24px;
+}
+
+.video-card h3 {
+    font-size: 1.5em;
+}
+
+.recipe-soon {
+    margin: 22px 0 0;
+    padding: 18px 20px;
+    border-radius: var(--r-inset);
+    background: #F5E0DB;
+    font-family: Georgia, serif;
+    font-style: italic;
+    color: #1E100A;
+}
+
+.recipe-columns[hidden] {
+    display: none;
+}
+
+.recipe-columns {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: 34px;
+    margin-top: 24px;
+}
+
+.recipe-columns h3 {
+    margin: 0 0 10px;
+    font-family: Georgia, serif;
+    font-size: 1.15em;
+    color: #1E100A;
+}
+
+.recipe-columns ul,
+.recipe-columns ol {
+    margin: 0;
+    padding-left: 20px;
+    line-height: 1.8;
+    color: #1E100A;
+}
+
+.recipe-columns ul li::marker {
+    color: #7E3F4A;
+}
+
+.recipe-columns ol li::marker {
+    color: #7E3F4A;
+    font-weight: 700;
+}
+
+@media (max-width: 600px) {
+    .recipe-columns {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .recipe-body {
+        padding: 22px 22px 28px;
+    }
+
+    .recipe-photo {
+        height: 180px;
+    }
+}
+
+/* Watch / Read intros: same heading style, on the same left edge as the shelves */
+.shelf-intro {
+    max-width: 1080px;
+    margin: 0 auto 32px;
+    text-align: left;
+}
+
+
+.shelf-intro .section-title {
+    text-align: left;
+    margin: 0;
+    white-space: nowrap;
+}
+
+
+@media (max-width: 768px) {
+    .shelf-intro {
+        margin-bottom: 28px;
+    }
+
+}
+
+
+/* ===== SHELVES (Watch + Read) =====
+   One horizontal row per category: big covers, ~4 full + part of the next one
+   showing "there's more →". Unranked collections, any number of items. */
+.shelf-section {
+    padding-left: 4vw;
+    padding-right: 4vw;
+}
+
+.shelf-container {
+    max-width: 1400px;
+}
+
+.shelf {
+    /* how many covers fit across: 4 full + part of the 5th */
+    --visible: 4.4;
+    --gap: 24px;
+    max-width: 1080px;
+    margin: 0 auto;
+}
+
+.shelf-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 18px;
+}
+
+.shelf-title {
+    font-family: Georgia, serif;
+    font-size: 1.6em;
+    font-weight: 700;
+    color: #1E100A;
+    margin: 0;
+}
+
+/* A small personal note under a shelf heading */
+.shelf-caption {
+    margin: -8px 0 16px;
+    font-size: 0.92em;
+    font-style: italic;
+    line-height: 1.55;
+    color: #3F4A34;
+}
+
+.shelf-see-all {
+    flex-shrink: 0;
+    border: none;
+    background: none;
+    padding: 4px 0;
+    color: #3F4A34;
+    font-size: 0.9em;
+    font-weight: 600;
+    cursor: var(--cursor-hot, pointer);
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    text-underline-offset: 4px;
+    transition: color 0.2s ease, text-decoration-color 0.2s ease;
+}
+
+.shelf-see-all:hover,
+.shelf-see-all:focus-visible {
+    color: #1E100A;
+    text-decoration-color: #7E3F4A;
+    outline: none;
+}
+
+.shelf-rail-wrap {
+    position: relative;
+}
+
+.shelf-rail {
+    list-style: none;
+    margin: 0;
+    /* room above/below so the hover lift and shadow aren't clipped */
+    padding: 10px 2px 18px;
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: clamp(140px, calc((100% - (var(--visible) - 0.4) * var(--gap)) / var(--visible)), 220px);
+    gap: var(--gap);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-left: 2px;
+    scrollbar-width: none;
+    cursor: grab;
+}
+
+/* Make, wide screens: a row with 4 cards or fewer doesn't scroll, so its cards stretch to the section's right edge */
+@media (min-width: 901px) {
+    .make-page .shelf-rail:not(:has(> .shelf-item:nth-child(5))) {
+        grid-auto-columns: minmax(0, 1fr);
+    }
+}
+
+.shelf-rail::-webkit-scrollbar {
+    display: none;
+}
+
+.shelf-rail:focus-visible {
+    outline: 2px solid #733642;
+    outline-offset: 4px;
+    border-radius: var(--r-small);
+}
+
+.shelf-rail.dragging {
+    cursor: grabbing;
+    scroll-snap-type: none;
+}
+
+.shelf-item {
+    scroll-snap-align: start;
+    min-width: 0;
+}
+
+.shelf-cover {
+    position: relative;
+    aspect-ratio: 2 / 3;
+    border-radius: var(--r-small);
+    overflow: hidden;
+    background: linear-gradient(135deg, #F4E3DF 0%, #F0D9D4 100%);
+    box-shadow: 0 6px 16px rgba(42, 24, 16, 0.14);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.shelf-cover img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    -webkit-user-drag: none;
+    user-select: none;
+}
+
+/* Artwork that isn't 2:3 (like a square poster) is shown whole on a blush mat, never cropped */
+.shelf-cover.show-whole img {
+    object-fit: contain;
+}
+
+
+.shelf-item:hover .shelf-cover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 28px rgba(42, 24, 16, 0.22);
+}
+
+.shelf-item-title {
+    margin: 14px 0 0;
+    font-family: Georgia, serif;
+    font-weight: 700;
+    font-size: 1em;
+    line-height: 1.3;
+    color: #1E100A;
+}
+
+.shelf-item-meta {
+    margin: 4px 0 0;
+    font-size: 0.8em;
+    color: #3F4A34;
+}
+
+/* Desktop arrows: appear when hovering the row, hide at either end */
+.shelf-arrow {
+    position: absolute;
+    top: calc(10px + (var(--cover-height, 300px) / 2));
+    transform: translateY(-50%);
+    z-index: 2;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid #EBD5D0;
+    background: rgba(250, 241, 239, 0.95);
+    color: #1E100A;
+    font-size: 1.4em;
+    line-height: 1;
+    cursor: var(--cursor-hot, pointer);
+    box-shadow: 0 6px 16px rgba(42, 24, 16, 0.18);
+    opacity: 0;
+    transition: opacity 0.25s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.shelf-arrow.prev {
+    left: -20px;
+}
+
+.shelf-arrow.next {
+    right: -20px;
+}
+
+.shelf-rail-wrap:hover .shelf-arrow:not([disabled]),
+.shelf-arrow:focus-visible:not([disabled]) {
+    opacity: 1;
+}
+
+.shelf-arrow:hover {
+    background: #733642;
+    color: #FAF1EF;
+}
+
+.shelf-arrow[disabled] {
+    pointer-events: none;
+}
+
+/* "See all": the row opens up into the full collection */
+.shelf.expanded .shelf-rail {
+    grid-auto-flow: row;
+    grid-template-columns: repeat(auto-fill, minmax(clamp(140px, calc((100% - 3.4 * var(--gap)) / 4), 220px), 1fr));
+    overflow: visible;
+    scroll-snap-type: none;
+    cursor: default;
+}
+
+.shelf.expanded .shelf-arrow {
+    display: none;
+}
+
+.shelf-divider {
+    max-width: 1080px;
+    margin: 48px auto;
+    border: none;
+    border-top: 1px solid #EBD5D0;
+    opacity: 1;
+}
+
+@media (hover: none) {
+    .shelf-arrow {
+        display: none;
+    }
+
+    .shelf-rail {
+        cursor: default;
+    }
+}
+
+@media (max-width: 900px) {
+    .shelf {
+        --visible: 3.4;
+        --gap: 20px;
+    }
+}
+
+@media (max-width: 600px) {
+    .shelf-section {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+    .shelf {
+        --visible: 2.3;
+        --gap: 16px;
+    }
+
+    .shelf-title {
+        font-size: 1.3em;
+    }
+
+    .shelf.expanded .shelf-rail {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    /* arrows sit just outside the row; on narrow screens you swipe instead */
+    .shelf-arrow {
+        display: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .shelf-cover {
+        transition: none;
+    }
+}
+
+/* Favorites > Reading: a real bookshelf. Covers stand on a wooden ledge that runs the length of each row
+   (each book carries its own piece of plank, reaching half a gap either side, so the pieces meet in one board),
+   and each cover gets a little spine shading so it reads as a book, not a poster. */
+#read .shelf-item {
+    position: relative;
+    container-type: inline-size;
+}
+
+#read .shelf-item::before {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    top: calc(150cqw - 2px);            /* the cover's bottom edge (covers are 2:3) */
+    left: calc(var(--gap) / -2);
+    right: calc(var(--gap) / -2);
+    height: 16px;
+    background:
+        linear-gradient(180deg, rgba(255, 240, 225, 0.55) 0 2px, rgba(255, 240, 225, 0) 2px),
+        linear-gradient(180deg, #C9A07F 0%, #B0825F 55%, #946A4D 100%);
+    box-shadow: 0 10px 14px -8px rgba(60, 34, 20, 0.45);
+}
+
+#read .shelf-cover {
+    z-index: 1;
+    border-radius: 2px 5px 5px 2px;
+    box-shadow: 0 2px 2px rgba(42, 24, 16, 0.25), 6px 0 14px -6px rgba(42, 24, 16, 0.25);
+    transform-origin: 50% 100%;
+}
+
+/* the spine: a soft crease down the left edge */
+#read .shelf-cover::after {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 9%;
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0.22) 0%, rgba(255, 255, 255, 0.14) 45%, rgba(0, 0, 0, 0) 100%);
+    pointer-events: none;
+}
+
+/* hover: the book tips forward off the shelf, like you're about to pull it out */
+#read .shelf-item:hover .shelf-cover {
+    transform: translateY(-8px) rotate(-2deg);
+    box-shadow: 0 16px 26px rgba(42, 24, 16, 0.25);
+}
+
+#read .shelf-item-title {
+    position: relative;
+    margin-top: 30px;
+}
+
+#read .shelf-rail {
+    padding-top: 16px;
+}
+
+/* "See all" rows each get their own board */
+#read .shelf.expanded .shelf-rail {
+    row-gap: 40px;
+}
+
+/* Make > Baking: the cake gallery on the left (one cake at a time, arrows flip through),
+   the treats as a 3-across grid of tiles on the right. The cake is as tall as the grid. */
+.bake-split {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.9fr);
+    gap: 28px;
+    margin-top: 8px;
+}
+
+.cake-viewer,
+.treat-side {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.bake-group-label {
+    margin: 0 0 12px;
+    font-size: 0.75em;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: #7E3F4A;
+}
+
+.cake-stage {
+    position: relative;
+    flex: 1;
+    min-height: 0;
+}
+
+.cake-slides {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+.cake-slide {
+    height: 100%;
+}
+
+.cake-slide[hidden] {
+    display: none;
+}
+
+.treat-grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.treat-grid > li {
+    aspect-ratio: 1;
+}
+
+/* a photo tile with its name laid over the bottom */
+.bake-tile {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border: none;
+    border-radius: var(--r-inset);
+    overflow: hidden;
+    cursor: var(--cursor-hot, pointer);
+    background: linear-gradient(160deg, #F5E0DB 0%, #EFCFCD 100%);
+    box-shadow: 0 6px 16px rgba(42, 24, 16, 0.14);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.bake-tile:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 28px rgba(42, 24, 16, 0.18);
+}
+
+.bake-tile:focus-visible {
+    outline: 2px solid #733642;
+    outline-offset: 4px;
+}
+
+.bake-tile img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.bake-tile .bake-whisk {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    width: 34%;
+    transform: translateX(-50%);
+}
+
+.bake-tile-label {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 36px 14px 12px;
+    text-align: left;
+    background: linear-gradient(to top, rgba(42, 24, 16, 0.72), rgba(42, 24, 16, 0));
+    color: #FFF8F6;
+}
+
+.bake-tile-title {
+    font-family: Georgia, serif;
+    font-weight: 700;
+    font-size: 1.05em;
+    line-height: 1.2;
+}
+
+.bake-tile-meta {
+    font-size: 0.8em;
+    opacity: 0.85;
+}
+
+.cake-viewer .bake-tile-title {
+    font-size: 1.35em;
+}
+
+.cake-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid #EBD5D0;
+    background: rgba(250, 241, 239, 0.95);
+    color: #1E100A;
+    font-size: 1.4em;
+    line-height: 1;
+    cursor: var(--cursor-hot, pointer);
+    box-shadow: 0 6px 16px rgba(42, 24, 16, 0.18);
+}
+
+.cake-arrow.prev { left: 12px; }
+.cake-arrow.next { right: 12px; }
+
+.cake-arrow:focus-visible {
+    outline: 2px solid #733642;
+    outline-offset: 2px;
+}
+
+/* the leftover spots in the last row */
+.treat-soon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    border: 1.5px dashed #E3C4C0;
+    border-radius: var(--r-inset);
+    color: #7E3F4A;
+    font-size: 0.85em;
+    font-style: italic;
+}
+
+.treat-soon .bake-whisk {
+    width: 30%;
+}
+
+@media (max-width: 768px) {
+    .bake-split {
+        grid-template-columns: 1fr;
+    }
+
+    .cake-stage {
+        flex: none;
+        aspect-ratio: 4 / 5;
+    }
+
+    .treat-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+    }
+}
+
+/* ===== Make: ONE type scale and ONE set of edges, locked =====
+   page title (h1)       site title size, Georgia
+   section title (h2)    site subtitle size, Georgia
+   section intro         the .shelf-caption: 1rem italic sage, the same under every h2
+   group label (h3)      and card kicker: 0.75rem caps, rose
+   card title            Georgia 1rem bold, ink (writing, treats, cakes, trips and art alike)
+   card meta             0.8rem sage
+   Every row sits flush on the section's left and right edges, with the same space under each h2. */
+.make-page .shelf-head {
+    margin-bottom: 20px;
+}
+
+.make-page .shelf-caption,
+.make-page .make-caption,
+.make-page .bake-intro {
+    max-width: none;   /* text runs to the edge of the column, never wrapping early */
+    margin: -6px 0 24px;
+    font-size: 1rem;
+    font-style: italic;
+    font-family: inherit;
+    line-height: 1.6;
+    color: #3F4A34;
+}
+
+.make-page .shelf-intro .make-caption {
+    margin: 14px 0 0;
+}
+
+.make-page .bake-group-label,
+.make-page .writing-kind {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: #7E3F4A;
+}
+
+.make-page .shelf-item-title,
+.make-page .bake-tile-title,
+.make-page .cake-viewer .bake-tile-title,
+.make-page .gallery-title {
+    font-family: Georgia, serif;
+    font-size: 1rem;
+    font-weight: 700;
+    font-style: normal;
+    line-height: 1.3;
+}
+
+.make-page .gallery-title {
+    color: #1E100A;
+}
+
+.make-page .shelf-item-meta,
+.make-page .bake-tile-meta {
+    font-size: 0.8rem;
+}
+
+/* no inset: the first and last card touch the section edges exactly */
+.make-page .shelf-rail {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+/* THINGS I MADE BECAUSE I WANTED THEM TO EXIST: two staggered columns of big tiles (Saturday + the book on
+   the left, the three sites on the right), each showing the real thing with a short caption underneath */
+.made-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 28px;
+    margin-top: 16px;
+    align-items: start;
+}
+
+.made-col {
+    display: flex;
+    flex-direction: column;
+    gap: 36px;
+}
+
+.made-card {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    color: #1E100A;
+    text-decoration: none;
+}
+
+.made-card:hover {
+    color: #1E100A;
+}
+
+.made-card:focus-visible {
+    outline: 2px solid #733642;
+    outline-offset: 6px;
+    border-radius: var(--r-card);
+}
+
+/* the colored tile; the live site sits in a browser window that runs off the bottom edge */
+.made-tile {
+    position: relative;
+    display: block;
+    aspect-ratio: 16 / 11;
+    overflow: hidden;
+    border-radius: var(--r-card);
+    border: var(--card-border);
+    margin-bottom: 8px;
+}
+
+.made-window {
+    position: absolute;
+    left: 9%;
+    right: 9%;
+    top: 11%;
+    display: block;
+    overflow: hidden;
+    border-radius: 10px 10px 0 0;
+    background: #FFFFFF;
+    box-shadow: 0 18px 40px rgba(30, 16, 10, 0.22);
+    transition: transform 0.35s ease;
+}
+
+.made-card:hover .made-window {
+    transform: translateY(-6px);
+}
+
+.made-window-bar {
+    display: flex;
+    gap: 5px;
+    padding: 7px 10px;
+    background: #F4ECEA;
+    border-bottom: 1px solid #E6D6D2;
+}
+
+.made-window-bar i {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #D8C3BF;
+}
+
+.made-window img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+/* each tile picks up its site's own colors */
+.made-tile-saturday    { aspect-ratio: 4 / 3; background: linear-gradient(160deg, #F7E2CF 0%, #E9A56F 100%); }
+.made-tile-personality { background: radial-gradient(circle at 50% 70%, #E0679A 0%, #5B1C38 55%, #2B0F1D 100%); }
+.made-tile-bag         { background: linear-gradient(160deg, #FBEDEE 0%, #EFC3CC 100%); }
+.made-tile-celestial   { background: linear-gradient(160deg, #F1E1E0 0%, #C9969E 100%); }
+
+/* the book: the photo of her holding it, full bleed */
+.made-tile-book {
+    aspect-ratio: 4 / 5.3;
+    background: #F5E0DB;
+}
+
+.made-tile-book img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 60%;
+    transition: transform 0.5s ease;
+}
+
+.made-card:hover .made-tile-book img {
+    transform: scale(1.03);
+}
+
+.made-caption {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.made-title {
+    font-family: Georgia, serif;
+    font-size: 1.2em;
+    font-weight: 700;
+    line-height: 1.25;
+}
+
+.made-meta {
+    flex-shrink: 0;
+    font-size: 0.7em;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #7E3F4A;
+}
+
+.made-line {
+    font-size: 0.95em;
+    line-height: 1.5;
+    color: #5A4038;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .made-card:hover .made-window,
+    .made-card:hover .made-tile-book img { transform: none; }
+}
+
+@media (max-width: 760px) {
+    .made-grid { grid-template-columns: 1fr; gap: 36px; }
+    .made-tile-book { aspect-ratio: 4 / 4.4; }
+    .made-caption { flex-wrap: wrap; gap: 2px 16px; }
+}
+
+/* the book in the writing shelf: mulberry, so it stands out from the poems */
+.shelf.writing-shelf .shelf-cover.writing-book {
+    background: #733642;
+    border-color: #733642;
+    border-top-color: #6F3B45;
+}
+
+.make-page .writing-book .writing-kind,
+.make-page .writing-book .writing-read {
+    color: #F5E0DB;
+}
+
+.make-page .writing-book .writing-opening {
+    margin-top: auto;
+    font-size: 1.35em;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #FFF8F6;
+}
+
+.make-page .writing-book .writing-read {
+    margin-top: 16px;
+}
+
+/* Make: every shelf opens with the "wait, what if…?" that started it */
+.make-page .shelf-head:has(.make-q) {
+    flex-wrap: wrap;
+}
+
+.make-q {
+    flex-basis: 100%;
+    margin: 0 0 4px;
+    font-family: Georgia, serif;
+    font-size: 1rem;
+    font-style: italic;
+    color: #7E3F4A;
+}
